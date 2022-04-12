@@ -19,7 +19,10 @@ public class User {
     private String userPassword;
     private String userPhoneNumber;
 
+    public User(){
 
+    }
+    
     public User(Long userId, String userName, String userSurname, String userNickname, String userEmail, String userPassword, String userPhoneNumber) {
         this.userId = userId;
         this.userName = userName;

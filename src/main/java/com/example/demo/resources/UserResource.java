@@ -1,6 +1,7 @@
 package com.example.demo.resources;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.websocket.server.PathParam;
@@ -11,7 +12,9 @@ import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -23,13 +26,19 @@ public class UserResource {
     @Autowired
     UserService userService;
 
+
     @GetMapping()
-    public ArrayList<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<User> listUsers() {
+        return userService.listUsers();
     }
 
-    @GetMapping( path = "/{userId}" )
-    public Optional<User> getSingleUser(@PathParam("userId") Long userId) {
+    // @GetMapping()
+    // public ArrayList<User> getAllUsers() {
+    //     return userService.getAllUsers();
+    // }
+
+    @GetMapping( path = "/{id}" )
+    public Optional<User> getSingleUser(@PathVariable("id") Long userId) {
         return userService.getSingleUser(userId);
     }
     
@@ -38,5 +47,10 @@ public class UserResource {
         return userService.saveUser(user);
     }
     
+    @DeleteMapping( path = "/{id}" )
+    public boolean deleteUser(@PathVariable("id") Long userId){
+        return userService.deleteUser(userId);
+    }
+
     
 }
