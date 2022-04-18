@@ -1,10 +1,7 @@
 package com.example.demo.resources;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import javax.websocket.server.PathParam;
 
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
@@ -28,8 +25,8 @@ public class UserResource {
 
 
     @GetMapping()
-    public List<User> listUsers() {
-        return userService.listUsers();
+    public List<User> listAllUsers() {
+        return userService.listAllUsers();
     }
 
     // @GetMapping()
@@ -38,8 +35,8 @@ public class UserResource {
     // }
 
     @GetMapping( path = "/{id}" )
-    public Optional<User> getSingleUser(@PathVariable("id") Long userId) {
-        return userService.getSingleUser(userId);
+    public Optional<User> getSingleUser(@PathVariable("id") Long userId){
+      return userService.getSingleUser(userId);
     }
     
     @PostMapping()

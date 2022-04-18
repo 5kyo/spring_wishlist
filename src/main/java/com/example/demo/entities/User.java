@@ -1,8 +1,15 @@
 package com.example.demo.entities;
 
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -19,12 +26,16 @@ public class User {
     private String userPassword;
     private String userPhoneNumber;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable( name = "user_roles ",
+                joinColumns = @JoinColumn( name = "userId" ),
+                inverseJoinColumns = @JoinColumn( name = "roleId" ))
+    private Set<Role> roles = new HashSet<>();
     public User(){
 
     }
     
-    public User(Long userId, String userName, String userSurname, String userNickname, String userEmail, String userPassword, String userPhoneNumber) {
-        this.userId = userId;
+    public User(String userName, String userSurname, String userNickname, String userEmail, String userPassword, String userPhoneNumber) {
         this.userName = userName;
         this.userSurname = userSurname;
         this.userNickname = userNickname;
@@ -89,5 +100,12 @@ public class User {
     public void setUserPhoneNumber(String userPhoneNumber) {
         this.userPhoneNumber = userPhoneNumber;
     }
+
+    public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
 }
