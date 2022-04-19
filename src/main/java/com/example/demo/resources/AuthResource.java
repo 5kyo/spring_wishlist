@@ -18,6 +18,7 @@ import com.example.demo.repositories.RoleRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.security.services.UserDetailsImpl;
+import com.example.demo.services.AuthService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,9 @@ public class AuthResource {
     @Autowired
     RoleRepository roleRepository;
 
+	@Autowired
+	AuthService authService;
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -51,26 +55,12 @@ public class AuthResource {
     JwtUtils jwtUtils;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), 
-                                                        loginRequest.getUserPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-        
-		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();		
-		List<String> roles = userDetailsImpl.getAuthorities().stream()
-				.map(item -> item.getAuthority())
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-												 userDetailsImpl.getUserId(), 
-												 userDetailsImpl.getUsername(), 
-												 userDetailsImpl.getUserEmail(), 
-												 roles));
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+		return authService.authenticateUser(loginRequest);
 	}
+	
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+	public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUserName(signUpRequest.getUserName())) {
 			return ResponseEntity
 					.badRequest()

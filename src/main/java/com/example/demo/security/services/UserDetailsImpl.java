@@ -16,22 +16,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class UserDetailsImpl implements UserDetails{
 
     private Long userId;
-    private String userName;
+    private String username;
     private String userEmail;
 
     @JsonIgnore
-    private String userPassword;
+    private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
     public UserDetailsImpl( Long userId, 
-                            String userName, 
+                            String username, 
                             String userEmail, 
-                            String userPassword,
+                            String password,
                             Collection<? extends GrantedAuthority> authorities){
                             
                             this.userId = userId;
-                            this.userName = userName;
+                            this.username = username;
                             this.userEmail = userEmail;
+							this.password = password;
                             this.authorities = authorities;
                             }
 
@@ -62,12 +63,12 @@ public class UserDetailsImpl implements UserDetails{
 
     @Override
 	public String getPassword() {
-		return userPassword;
+		return password;
 	}
     
     @Override
 	public String getUsername() {
-		return userName;
+		return username;
 	}
 
 	@Override

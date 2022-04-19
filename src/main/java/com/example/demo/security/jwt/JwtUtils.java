@@ -14,16 +14,16 @@ import io.jsonwebtoken.*;
 @Component
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-	@Value("${app.jwtSecret}")
+	@Value("${jwt.secret")
 	private String jwtSecret;
 
-	@Value("${app.jwtExpirationMs}")
+	@Value("${jwt.expiration}")
 	private int jwtExpirationMs;
 
 	public String generateJwtToken(Authentication authentication) {
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 		return Jwts.builder()
-				.setSubject((userPrincipal.getUsername()))
+				.setSubject(userPrincipal.getUsername())
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
