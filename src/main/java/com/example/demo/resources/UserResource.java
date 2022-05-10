@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.entities.User;
+import com.example.demo.handler.ValidationException;
 import com.example.demo.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UserResource {
 
     @GetMapping( path = "/{id}" )
     public Optional<User> getSingleUser(@PathVariable("id") Long userId){
-      return userService.getSingleUser(userId);
+        return userService.getSingleUser(userId);
     }
     
     @PostMapping()

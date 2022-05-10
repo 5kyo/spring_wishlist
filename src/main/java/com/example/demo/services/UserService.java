@@ -3,7 +3,9 @@ package com.example.demo.services;
 import java.util.List;
 import java.util.Optional;
 
+
 import com.example.demo.entities.User;
+import com.example.demo.handler.ValidationException;
 import com.example.demo.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,10 @@ public class UserService {
     // }
     
     public Optional<User> getSingleUser(Long userId){
+        if(userRepository.getSingleUser(userId).isEmpty()){
+            throw new ValidationException("User not found or not exist");
+        }
+        
       return userRepository.getSingleUser(userId);
     }
 

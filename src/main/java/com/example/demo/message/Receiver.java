@@ -1,14 +1,16 @@
-// package com.example.demo.message;
+package com.example.demo.message;
 
-// import org.springframework.jms.annotation.JmsListener;
-// import org.springframework.stereotype.Component;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.stereotype.Component;
 
 
-// @Component
-// public class Receiver {
+@Component
+public class Receiver {
 
-//   @JmsListener(destination = "mailbox", containerFactory = "myFactory")
-//   public void receiveMessage(Email email) {
-//     System.out.println("Received <" + email + ">");
-//   }
-// }
+    private static final String qName = "DEV.QUEUE.1";
+
+    @JmsListener(destination = qName)
+    public void receiveMessage(Message msg) {
+        System.out.println("Received <" + msg.getMessage() + ">");
+    }
+}

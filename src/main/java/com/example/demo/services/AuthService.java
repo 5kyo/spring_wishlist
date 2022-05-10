@@ -32,7 +32,8 @@ public class AuthService {
         
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
-		UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();		
+		UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
+		
 		List<String> roles = userDetailsImpl.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
